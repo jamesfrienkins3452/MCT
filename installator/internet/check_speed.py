@@ -2,18 +2,13 @@ from speedtest import Speedtest
 
 class Connection_speed:
     def __init__(self):
-        pass
+        self.speed_test = Speedtest()
 
     def download(self):
-        try:
-            self.speed_test = Speedtest()
-            return self.speed_test.download()
-        except:
-            return None
+        return self.speed_test.download()
 
     def upload(self):
         try:
-            self.speed_test = Speedtest()
             return self.speed_test.upload()
         except:
             return None
