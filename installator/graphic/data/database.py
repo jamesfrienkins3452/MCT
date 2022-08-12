@@ -1,16 +1,17 @@
 import sqlite3
 from os import path
 
-file_path_list = path.abspath(__file__)
-k, file_path = "\ ", ""
-file_path_list = file_path_list.split(k[0])
-for n in file_path_list[0: len(file_path) - 1]:
-    file_path += (n + k[0])
+_, default_file_path = "\ ", ""
+for n in path.abspath(__file__).split(_[0])[0: len(default_file_path) - 1]:
+    default_file_path += (n + _[0])
 
 class Database:
-    def __init__(self, database_name):
+    def __init__(self, database_name, file_path = default_file_path, k = ''):
         self.database_name = database_name
-        self.conn = (sqlite3.connect(f"{file_path}/" + self.database_name + ".db"))
+        if k == '':
+            self.conn = (sqlite3.connect(f"{file_path}/" + self.database_name + ".db"))
+        else:
+            self.conn = (sqlite3.connect(file_path))
         self.cursor = self.conn.cursor()
 
         self.table_list = []
@@ -27,9 +28,6 @@ class Database:
             self.cursor.execute(f"select * from {table_name} limit 1")
             col_name = [i[0] for i in self.cursor.description]
             self.table_rows[table_name] = col_name
-        
-        print(self.table_list)
-        print(self.table_rows)
 
     def new_table(self, table_name, table_rows):
         if table_name not in self.table_list:
@@ -99,3 +97,6 @@ CREATE TABLE IF NOT EXISTS {table_name} (
         self.cursor.execute(command)
         self.conn.commit()
         return command
+    
+    def disconnect(self):
+        self.conn.close()

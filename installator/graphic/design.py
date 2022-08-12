@@ -183,27 +183,10 @@ def main(height_, width_, connection_status = "Unknown", repair_key = "successfu
             pos: "345", {height_ - 105}
             color: 1, 1, 1, 1
         Button:
-            text: "Objects"
-            id: InstallationSettings_Screen_Objects
-            size: "140", "40"
-            pos: "190", {height_ - 150}
-            background_normal: ""
-            background_color: 0.9, 0.9, 1, .8
-            color: 0, 0, 0
-            on_release:
-                root.objects()
-            disabled: True
-        Label:
-            id: object_label
-            text: "Objects isn't selected"
-            size: "143", "30"
-            pos: "345", {height_ - 155}
-            color: 1, 1, 1, 1
-        Button:
             text: "Location"
             id: InstallationSettings_Screen_Location
             size: "140", "40"
-            pos: "190", {height_ - 200}
+            pos: "190", {height_ - 150}
             background_normal: ""
             background_color: 0.9, 0.9, 1, .8
             color: 0, 0, 0

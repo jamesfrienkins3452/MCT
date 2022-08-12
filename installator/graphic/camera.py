@@ -39,11 +39,8 @@ else:
 
 info = ["", "", ""]
 
-try:
-    sock = socket.socket()
-    sock.connect(('localhost', 5001))
-except:
-    pass
+sock = socket.socket()
+sock.connect(('localhost', 5001))
 
 Builder.load_string(camera_(camera_id = info[0], camera_link = info[1], camera_name = info[2], height_ = height_))
 
@@ -55,36 +52,26 @@ class CameraSettings_Screen(Screen):
     def __init__(self, **kwargs):
         super(CameraSettings_Screen, self).__init__(**kwargs)
         dt = db.read_table('camera')
-        print(dt, 'dt')
         if dt != []:
             self.ids['camera_id'].text = dt[0][1]
             self.ids['camera_link'].text = dt[1][1]
             self.ids['camera_name'].text = dt[2][1]
-
-
     def exit_screen(self):
         exit()
-
     def help(self):
         open_help()
-
     def update_data(self):
         self.camera_id = self.ids['camera_id'].text
         self.camera_link = self.ids['camera_link'].text
         self.camera_name = self.ids['camera_name'].text
-
         db.edit_data('camera',  ('type', self.camera_id), 'type', 'Camera id')
-
         db.edit_data('camera',  ('type', self.camera_link), 'type', 'Camera link')
-
         db.edit_data('camera',  ('type', self.camera_name), 'type', 'Camera name')
-
         dt = self.camera_id + '|' + self.camera_link + '|' + self.camera_name
-
         sock.send(str.encode(dt))
-
     def get_data(self):
         return db.read_table()
+
 sm = ScreenManager(transition = NoTransition())
 sm.add_widget(CameraSettings_Screen(name = 'camera_settings'))
 
