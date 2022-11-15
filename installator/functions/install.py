@@ -45,9 +45,9 @@ def download_file(raw_url, folder, l = False):
         create_folders(folder)
         open(folder + '\\' + file_name, 'wb').write(raw.content)
 
-
 def download_program(prg_loc, dt_loc):
     raw_link_list = read_default_urls()
+    print('LINKS', raw_link_list)
     for link in raw_link_list:
         download_file(link, prg_loc)
 
@@ -60,7 +60,6 @@ def setup(camera_settings, program_location = prog_l, data_location = data_l, lo
         create_folder(program_location, 'MCT\\system files\\data')
         create_folder(program_location, 'MCT\\system files\\cache')
         create_folder(program_location, 'MCT\\system files\\program')
-        create_folder(program_location, 'MCT\\system files')
         create_folder(data_location, 'MCT')
         create_folder(data_location, 'MCT\\recordings')
         create_folder(logs_location, 'MCT')

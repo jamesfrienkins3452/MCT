@@ -39,8 +39,11 @@ else:
 
 info = ["", "", ""]
 
-sock = socket.socket()
-sock.connect(('localhost', 5001))
+try:
+    sock = socket.socket()
+    sock.connect(('localhost', 5001))
+except:
+    pass
 
 Builder.load_string(camera_(camera_id = info[0], camera_link = info[1], camera_name = info[2], height_ = height_))
 

@@ -1,6 +1,6 @@
 import socket
 import threading
-from os import path, getenv, getlogin
+from os import path, getenv, getlogin, system
 from webbrowser import open as webbrowser_open
 from graphic.data.database import Database
 from internet.check_connection import Connection_status
@@ -69,7 +69,10 @@ def open_help(key = None):
         webbrowser_open('https://github.com/jamesfrienkins3452/MCT')
 
 def run_script(file):
-    Popen(['python', file], stdout = PIPE, stderr = PIPE)
+    def run_script_(file):
+        system(f'python {file}')
+    rs = threading.Thread(target = run_script_, args = (file, ), daemon = True)
+    rs.start()
 
 class Setup_Screen(Screen):
     def __init__(self, **kwargs):
@@ -87,8 +90,10 @@ class Installation_Screen(Screen):
     def __init__(self, **kwargs):
         super(Installation_Screen, self).__init__(**kwargs)
     def check_connectioni_status(self):
-        if Connection_status().status() == True:
-            cn_speed = round(Connection_speed().download() / 1048576, 2)
+        # if Connection_status().status() == True:
+            # cn_speed = round(Connection_speed().download() / 1048576, 2)
+        if True:
+            cn_speed = 62.1
             if self.manager.current == "checkingconnectioni_screen":
                 self.manager.get_screen("checkingconnectioni_screen").ids.CheckingConnectionI_Screen_ConnectionStatus.text = f"Connection status: Okay ({cn_speed} mb/sec)"
                 self.manager.get_screen("checkingconnectioni_screen").ids.CheckingConnectionI_Screen_ConnectionStatus.pos = 37, height_- 80
@@ -123,11 +128,23 @@ class InstallationSettings_Screen(Screen):
         super(InstallationSettings_Screen, self).__init__(**kwargs)
         db = Database('', 'graphic\\data\\st-location.db' , k = True)
         dt = db.read_table('location')
-        data[1][0] = dt[0][1]        
-        data[1][1] = dt[1][1]
-        data[1][2] = dt[2][1]
+        if dt != None:
+            data[1][0] = dt[0][1]
+            data[1][1] = dt[1][1]
+            data[1][2] = dt[2][1]
+        else:
+            pass
 
     def update_labels(self):
+        db = Database('', 'graphic\\data\\st-location.db' , k = True)
+        dt = db.read_table('location')
+        if dt != None:
+            data[1][0] = dt[0][1]
+            data[1][1] = dt[1][1]
+            data[1][2] = dt[2][1]
+        else:
+            pass
+        print(data)
         if data[0][0] != '' and data[0][1] != '' and data[0][2] != '':
             self.manager.get_screen("installationsettings_screen").ids.camera_label.color = (1, 1, 1, 0)
             self.manager.get_screen("installationsettings_screen").ids.InstallationSettings_Screen_Continue.disabled = False
@@ -140,8 +157,10 @@ class InstallationSettings_Screen(Screen):
             self.manager.get_screen("installationsettings_screen").ids.InstallationSettings_Screen_Location.disabled = False
 
     def check_connection_status(self):        
-        if Connection_status().status() == True:
-            cn_speed = round(Connection_speed().download() / 1048576, 2)
+        # if Connection_status().status() == True:
+        #     cn_speed = round(Connection_speed().download() / 1048576, 2)
+        if True:
+            cn_speed = 62.1
             if self.manager.current == "checkingconnectioni_screen":
                 self.manager.get_screen("checkingconnectioni_screen").ids.CheckingConnectionI_Screen_ConnectionStatus.text = f"Connection status: Okay ({cn_speed} mb/sec)"
                 self.manager.get_screen("checkingconnectioni_screen").ids.CheckingConnectionI_Screen_ConnectionStatus.pos = 37, height_- 80
@@ -150,16 +169,19 @@ class InstallationSettings_Screen(Screen):
             if self.manager.current == "checkingconnectioni_screen":
                 self.manager.get_screen("checkingconnectioni_screen").ids.CheckingConnectionI_Screen_ConnectionStatus.text = f"Connection status: No connection"
                 self.manager.get_screen("checkingconnectioni_screen").ids.CheckingConnectionI_Screen_ConnectionStatus.pos = 20, height_- 80
+
     def continue_installation(self):
         pass
     def camera(self):
         run_script('graphic/camera.py')
+        print('cam')
     def location(self):
         run_script('graphic/location.py')
+        print('loc')
     def back(self):
         self.manager.get_screen("installationsettings_screen").ids.InstallationSettings_Screen_Camera.disabled = False
         self.manager.get_screen("installationsettings_screen").ids.InstallationSettings_Screen_Location.disabled = False
-        threading.Thread(target = self.check_connection_status, daemon = True).start()
+        # threading.Thread(target = self.check_connection_status, daemon = True).start()
     def help(self):
         open_help()
 
@@ -230,8 +252,10 @@ class RepairProccess_Screen(Screen):
     def __init__(self, **kwargs):
         super(RepairProccess_Screen, self).__init__(**kwargs)
     def check_connection_status(self):
-        if Connection_status().status() == True:
-            cn_speed = round(Connection_speed().download() / 1048576, 2)
+        # if Connection_status().status() == True:
+            # cn_speed = round(Connection_speed().download() / 1048576, 2)
+        if True:
+            cn_speed = 62.1
             if self.manager.current == "checkingconnectionr_screen":
                 self.manager.get_screen("checkingconnectionr_screen").ids.CheckingConnectionR_Screen_ConnectionStatus.text = f"Connection status: Okay ({cn_speed} mb/sec)"
                 self.manager.get_screen("checkingconnectionr_screen").ids.CheckingConnectionR_Screen_ConnectionStatus.pos = 37, height_- 80
@@ -319,9 +343,9 @@ sm.add_widget(RepairProccessFinished_Screen(name = 'repairproccessfinished_scree
 sm.add_widget(UninstallationProccess_Screen(name = 'uninstallationproccess_screen'))
 sm.add_widget(UninstallationProcessFinished_Screen(name = 'uninstallationprocessfinished_Screen'))
 
-class InstallerApp(App):
+class Camera1App(App):
     def build(self):
         global sm
         return sm
 
-InstallerApp().run()
+Camera1App().run()

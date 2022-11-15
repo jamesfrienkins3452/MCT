@@ -75,7 +75,8 @@ CREATE TABLE IF NOT EXISTS {table_name} (
             rows += "\"" + data[id] + "\""
             if id + 1 < len(data):
                 rows += ", "
-        command = f"INSERT INTO {table} VALUES ({rows});"
+        command = f"INSERT OR REPLACE INTO {table} VALUES ({rows});"
+        print('COMMAND', command)
         self.cursor.execute(command)
         self.conn.commit()
         return command

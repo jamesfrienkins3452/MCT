@@ -38,6 +38,12 @@ if not path.exists(file_path + '/graphic/data/st-location.db'):
     db.add_data('location', ('Log location', default_logs_location))
 else:
     db = Database('st-location')
+    dt = db.read_table('location')
+    if dt == None:
+        db.new_table('location', [('type', 'text', 'PRIMARY KEY'), ('location', 'text', '')])
+        db.add_data('location', ('Program location', default_settings_location))
+        db.add_data('location', ('Files location', default_data_location))
+        db.add_data('location', ('Log location', default_logs_location))
 
 info = ["" , "", ""]
 
