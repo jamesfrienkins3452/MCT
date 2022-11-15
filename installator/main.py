@@ -9,9 +9,8 @@ from graphic.design import main
 from kivy.config import Config
 from kivy.app import App
 from kivy.lang import Builder
-from graphic.screen import ScreenSettings
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
-from subprocess import Popen, PIPE
+from graphic.screen import ScreenSettings
 from functions.install import setup as setup_i
 from functions.repair import setup as setup_r
 from functions.uninstall import setup as setup_u
@@ -24,6 +23,7 @@ Config.set('graphics', 'height', str(height_))
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 
 _, file_path = "\ ", ""
+
 for n in path.abspath(__file__).split(_[0])[0: len(file_path) - 1]:
     file_path += (n + _[0])
 
@@ -90,10 +90,8 @@ class Installation_Screen(Screen):
     def __init__(self, **kwargs):
         super(Installation_Screen, self).__init__(**kwargs)
     def check_connectioni_status(self):
-        # if Connection_status().status() == True:
-            # cn_speed = round(Connection_speed().download() / 1048576, 2)
-        if True:
-            cn_speed = 62.1
+        if Connection_status().status() == True:
+            cn_speed = round(Connection_speed().download() / 1048576, 2)
             if self.manager.current == "checkingconnectioni_screen":
                 self.manager.get_screen("checkingconnectioni_screen").ids.CheckingConnectionI_Screen_ConnectionStatus.text = f"Connection status: Okay ({cn_speed} mb/sec)"
                 self.manager.get_screen("checkingconnectioni_screen").ids.CheckingConnectionI_Screen_ConnectionStatus.pos = 37, height_- 80
@@ -157,10 +155,8 @@ class InstallationSettings_Screen(Screen):
             self.manager.get_screen("installationsettings_screen").ids.InstallationSettings_Screen_Location.disabled = False
 
     def check_connection_status(self):        
-        # if Connection_status().status() == True:
-        #     cn_speed = round(Connection_speed().download() / 1048576, 2)
-        if True:
-            cn_speed = 62.1
+        if Connection_status().status() == True:
+            cn_speed = round(Connection_speed().download() / 1048576, 2)
             if self.manager.current == "checkingconnectioni_screen":
                 self.manager.get_screen("checkingconnectioni_screen").ids.CheckingConnectionI_Screen_ConnectionStatus.text = f"Connection status: Okay ({cn_speed} mb/sec)"
                 self.manager.get_screen("checkingconnectioni_screen").ids.CheckingConnectionI_Screen_ConnectionStatus.pos = 37, height_- 80
@@ -174,14 +170,11 @@ class InstallationSettings_Screen(Screen):
         pass
     def camera(self):
         run_script('graphic/camera.py')
-        print('cam')
     def location(self):
         run_script('graphic/location.py')
-        print('loc')
     def back(self):
         self.manager.get_screen("installationsettings_screen").ids.InstallationSettings_Screen_Camera.disabled = False
         self.manager.get_screen("installationsettings_screen").ids.InstallationSettings_Screen_Location.disabled = False
-        # threading.Thread(target = self.check_connection_status, daemon = True).start()
     def help(self):
         open_help()
 
@@ -252,10 +245,8 @@ class RepairProccess_Screen(Screen):
     def __init__(self, **kwargs):
         super(RepairProccess_Screen, self).__init__(**kwargs)
     def check_connection_status(self):
-        # if Connection_status().status() == True:
-            # cn_speed = round(Connection_speed().download() / 1048576, 2)
-        if True:
-            cn_speed = 62.1
+        if Connection_status().status() == True:
+            cn_speed = round(Connection_speed().download() / 1048576, 2)
             if self.manager.current == "checkingconnectionr_screen":
                 self.manager.get_screen("checkingconnectionr_screen").ids.CheckingConnectionR_Screen_ConnectionStatus.text = f"Connection status: Okay ({cn_speed} mb/sec)"
                 self.manager.get_screen("checkingconnectionr_screen").ids.CheckingConnectionR_Screen_ConnectionStatus.pos = 37, height_- 80

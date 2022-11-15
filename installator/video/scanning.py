@@ -34,7 +34,7 @@ for x in range(100):
    t.daemon = True
    t.start()
    
-for worker in range(1, 500):
+for worker in range(1, 10000):
    q.put(worker)
    
 q.join()

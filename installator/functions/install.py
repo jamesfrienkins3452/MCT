@@ -1,6 +1,7 @@
 import os
 from requests import get as get_file
 from graphic.data.database import Database
+
 settings_location = os.getenv('APPDATA')[0:len(os.getenv('APPDATA')) - 8] + '\\Local'
 
 def read_default_urls():
@@ -80,6 +81,7 @@ def setup(camera_settings, program_location = prog_l, data_location = data_l, lo
         db_cam.add_data('camera_1', ('camera id', camera_id))
         db_cam.add_data('camera_1', ('camera link', camera_link))
         db_cam.add_data('camera_1', ('camera name', camera_name))
+        db_cam.disconnect()
 
         download_program(program_location, data_location)
     except:
