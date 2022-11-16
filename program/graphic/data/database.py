@@ -59,12 +59,9 @@ CREATE TABLE IF NOT EXISTS {table_name} (
             return None
 
     def read_table(self, table_name):
-        # if table_name in self.table_list:
         self.cursor.execute(f"SELECT * FROM {table_name}")
         data =  self.cursor.fetchall()
         return data
-        # else:
-        #     return None
 
     def add_data(self, table, data):
         rows = ""
